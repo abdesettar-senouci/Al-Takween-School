@@ -53,6 +53,12 @@ app.post('/courses', async (req, res) => {
     res.redirect('/courses');
 })
 
+//show course
+app.get('/courses/:id', async (req, res,) => {
+    const course = await Course.findById(req.params.id)
+    res.render('courses/show', { course });
+});
+
 //port
 app.listen(3000, () => {
     console.log('Serving on port 3000')

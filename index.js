@@ -9,6 +9,14 @@ const methodOverride = require('method-override');
 //run express
 const app = express();
 
+//connect to mongoose
+mongoose.set('strictQuery', false);
+main().catch(err => console.log(err));
+async function main() {
+  await mongoose.connect('mongodb://127.0.0.1:27017/school')
+  .then(console.log('database connected'))
+}
+
 //set the view engine
 app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
@@ -29,4 +37,4 @@ app.get('/', (req, res) => {
 //port
 app.listen(3000, () => {
     console.log('Serving on port 3000')
-})
+});

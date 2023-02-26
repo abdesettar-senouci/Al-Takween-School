@@ -5,6 +5,7 @@ const ejsMate = require('ejs-mate');
 const methodOverride = require('method-override');
 //const session = require('express-session');
 //const passport = require('passport'); not used for now
+const Course = require('./models/course')
 
 //run express
 const app = express();
@@ -31,8 +32,20 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //the home route
 app.get('/', (req, res) => {
-    res.send('hello from home');
+    res.render('home.ejs');
 });
+
+//new course form
+app.get('/courses/new',(req,res)=>{
+    res.render('courses/new');
+})
+
+//create a new course
+app.post('/courses', async (req, res) => {
+    const course = new Course(req.body.course);
+    await course.save();
+    res.redirect('/');
+})
 
 //port
 app.listen(3000, () => {

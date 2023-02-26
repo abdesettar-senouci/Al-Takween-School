@@ -59,6 +59,27 @@ app.get('/courses/:id', async (req, res,) => {
     res.render('courses/show', { course });
 });
 
+//show edit course page
+app.get('/courses/:id/edit', async (req, res) => {
+    const course = await Course.findById(req.params.id)
+    res.render('courses/edit', { course });
+})
+
+//edit course
+app.put('/courses/:id', async (req, res) => {
+    const { id } = req.params;
+    const course = await Course.findByIdAndUpdate(id, { ...req.body.course });
+    res.redirect(`/courses/${course._id}`)
+});
+
+//delete course
+app.delete('/courses/:id', async (req, res) => {
+    const { id } = req.params;
+    await Course.findByIdAndDelete(id);
+    res.redirect('/courses');
+})
+
+
 //port
 app.listen(3000, () => {
     console.log('Serving on port 3000')

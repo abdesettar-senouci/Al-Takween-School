@@ -35,6 +35,12 @@ app.get('/', (req, res) => {
     res.render('home.ejs');
 });
 
+//see courses
+app.get('/courses',async(req,res)=>{
+    const courses = await Course.find({});
+    res.render('courses/index', { courses });
+});
+
 //new course form
 app.get('/courses/new',(req,res)=>{
     res.render('courses/new');
@@ -44,7 +50,7 @@ app.get('/courses/new',(req,res)=>{
 app.post('/courses', async (req, res) => {
     const course = new Course(req.body.course);
     await course.save();
-    res.redirect('/');
+    res.redirect('/courses');
 })
 
 //port

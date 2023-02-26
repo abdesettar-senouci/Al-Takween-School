@@ -1,0 +1,46 @@
+# Logs
+logs
+*.log
+
+# Node modules
+node_modules
+
+# Environment variables
+.env
+
+# Build artifacts
+dist/
+build/
+
+# Compiled source
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# IDEs and text editors
+.idea/
+*.iml
+*.swp
+*.sublime-project
+*.sublime-workspace
+
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.ncb
+*.aps
+*.idb
+*.pdb
+*.sdf
+
+# OS generated files
+.DS_Store
+Thumbs.db
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Desktop.ini

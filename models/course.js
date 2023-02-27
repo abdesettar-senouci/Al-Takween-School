@@ -7,6 +7,7 @@ const courseSchema = new Schema({
         required:true
     },
     link:String,
+    description:String
 })
 
 const course = mongoose.model('Course',courseSchema);

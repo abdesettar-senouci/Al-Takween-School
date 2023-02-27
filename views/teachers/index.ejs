@@ -1,0 +1,11 @@
+<% layout('layouts/boilerplate') %>
+<h1>our teachers</h1>
+    
+    <ul>
+        <% for (let teacher of teachers){%>
+        <li><a href="/teachers/<%= teacher._id %>"><%= teacher.name %></a></li>
+        <% }%>
+    </ul>
+    <div>
+        <a href="/teachers/new">are you a teacher? register here</a>
+    </div>

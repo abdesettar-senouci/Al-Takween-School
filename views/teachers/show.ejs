@@ -1,0 +1,12 @@
+<% layout('layouts/boilerplate') %>
+    <h1><%= teacher.name %></h1>
+    <p><%= teacher.description %></p>
+    <p><%= teacher.email %></p>
+    <p> <a href="/teachers/<%=teacher._id%>/edit">Edit</a>
+    </p>
+    <p>
+    <form action="/teachers/<%=teacher._id%>?_method=DELETE" method="POST">
+        <button>Delete your account</button>
+    </form>
+    </p>
+    <a href="/teachers">back to teachers</a>

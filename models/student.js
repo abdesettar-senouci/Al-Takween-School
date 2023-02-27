@@ -8,6 +8,8 @@ const studentSchema = new Schema({
 	},
 	email:String,
 	password:String,
+	membership:String,
+	membershipDate:Date
 });
 
 const student = mongoose.model('Student',studentSchema);

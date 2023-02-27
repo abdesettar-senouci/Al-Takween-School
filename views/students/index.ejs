@@ -1,0 +1,11 @@
+<% layout('layouts/boilerplate') %>
+<h1>our students</h1>
+    
+    <ul>
+        <% for (let student of students){%>
+        <li><a href="/students/<%= student._id %>"><%= student.name %></a> <p><%= student.membership %> : <%= student.membershipDate %></p></li>
+        <% }%>
+    </ul>
+    <div>
+        <a href="/students/new">are you a student? register here</a>
+    </div>

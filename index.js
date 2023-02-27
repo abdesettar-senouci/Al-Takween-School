@@ -11,6 +11,7 @@ const Teacher = require('./models/teacher')
 //routes
 const courses = require('./routes/courses');
 const teachers = require('./routes/teachers');
+const students = require('./routes/students');
 
 //run express
 const app = express();
@@ -42,6 +43,7 @@ app.get('/', (req, res) => {
 
 app.use('/courses', courses);
 app.use('/teachers',teachers);
+app.use('/students',students);
 
 //port
 app.listen(3000, () => {

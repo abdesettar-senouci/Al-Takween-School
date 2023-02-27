@@ -1,0 +1,28 @@
+<% layout('layouts/boilerplate') %>
+    <h1>Edit student</h1>
+    <form action="/students/<%=student._id%>?_method=PUT" method="POST">
+        <div>
+            <label for="name">name</label>
+            <input type="text" id="name" name="student[name]">
+        </div>
+        <div>
+            <label for="email">email</label>
+            <input type="text" id="email" name="student[email]">
+        </div>
+        <div>
+            <label for="password">password</label>
+            <input type="password" id="password" name="student[password]">
+        </div>
+        <div>
+            <label for="membership">membership</label>
+            <input type="text" id="membership" name="student[membership]">
+        </div>
+        <div>
+            <label for="membershipDate">membership Date</label>
+            <input type="date" id="membershipDate" name="student[membershipDate]">
+        </div>
+        <button>Update profile</button>
+    </form>
+    <a href="/students/<%= student._id%>">Back To profile</a>
+    <br>
+    <a href="/students">back to students</a>

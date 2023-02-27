@@ -1,0 +1,14 @@
+<% layout('layouts/boilerplate') %>
+    <h1><%= student.name %></h1>
+    <p><%= student.email %></p>
+    <p><%= student.membership %></p>
+    <p><%= student.membershipDate %></p>
+
+    <p> <a href="/students/<%=student._id%>/edit">Edit</a>
+    </p>
+    <p>
+    <form action="/students/<%=student._id%>?_method=DELETE" method="POST">
+        <button>Delete your account</button>
+    </form>
+    </p>
+    <a href="/students">back to students</a>

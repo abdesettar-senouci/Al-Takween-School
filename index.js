@@ -8,6 +8,10 @@ const methodOverride = require('method-override');
 const Course = require('./models/course')
 const Teacher = require('./models/teacher')
 
+//routes
+const courses = require('./routes/courses');
+const teachers = require('./routes/teachers');
+
 //run express
 const app = express();
 
@@ -36,95 +40,8 @@ app.get('/', (req, res) => {
     res.render('home.ejs',{title:'home'});
 });
 
-//////course crud
-
-//see courses
-app.get('/courses',async(req,res)=>{
-    const courses = await Course.find({});
-    res.render('courses/index', { courses , title:'courses' });
-});
-
-//new course form
-app.get('/courses/new',(req,res)=>{
-    res.render('courses/new', {title:'new course'});
-})
-
-//create a new course
-app.post('/courses', async (req, res) => {
-    const course = new Course(req.body.course);
-    await course.save();
-    res.redirect('/courses');
-})
-
-//show course
-app.get('/courses/:id', async (req, res,) => {
-    const course = await Course.findById(req.params.id)
-    res.render('courses/show', { course , title:course.title});
-});
-
-//show edit course page
-app.get('/courses/:id/edit', async (req, res) => {
-    const course = await Course.findById(req.params.id)
-    res.render('courses/edit', { course , title:'edit course'});
-})
-
-//edit course
-app.put('/courses/:id', async (req, res) => {
-    const { id } = req.params;
-    const course = await Course.findByIdAndUpdate(id, { ...req.body.course });
-    res.redirect(`/courses/${course._id}`)
-});
-
-//delete course
-app.delete('/courses/:id', async (req, res) => {
-    const { id } = req.params;
-    await Course.findByIdAndDelete(id);
-    res.redirect('/courses');
-})
-
-////////// teacher crud
-//show teachers
-app.get('/teachers',async(req,res)=>{
-    const teachers = await Teacher.find({});
-    res.render('teachers/index', { teachers , title:'teachers' });
-});
-
-app.get('/teachers/new',(req,res)=>{
-    res.render('teachers/new', {title:'register'});
-})
-
-//create a teacher
-app.post('/teachers', async (req, res) => {
-    const teacher = new Teacher(req.body.teacher);
-    await teacher.save();
-    res.redirect('/teachers');
-})
-
-//show teacher
-app.get('/teachers/:id', async (req, res,) => {
-    const teacher = await Teacher.findById(req.params.id)
-    res.render('teachers/show', { teacher , title:teacher.name});
-});
-
-//update profile page
-app.get('/teachers/:id/edit', async (req, res) => {
-    const teacher = await Teacher.findById(req.params.id)
-    res.render('teachers/edit', { teacher , title:'edit profile' });
-})
-
-//edit teacher
-app.put('/teachers/:id', async (req, res) => {
-    const { id } = req.params;
-    const teacher = await Teacher.findByIdAndUpdate(id, { ...req.body.teacher });
-    res.redirect(`/teachers/${teacher._id}`)
-});
-
-//delete profile
-app.delete('/teachers/:id', async (req, res) => {
-    const { id } = req.params;
-    await Teacher.findByIdAndDelete(id);
-    res.redirect('/teachers');
-})
+app.use('/courses', courses);
+app.use('/teachers',teachers);
 
 //port
 app.listen(3000, () => {

@@ -5,8 +5,8 @@ const ejsMate = require('ejs-mate');
 const methodOverride = require('method-override');
 //const session = require('express-session');
 //const passport = require('passport'); not used for now
-const Course = require('./models/course')
-const Teacher = require('./models/teacher')
+const Course = require('./models/course');
+const Teacher = require('./models/teacher');
 
 //routes
 const courses = require('./routes/courses');
@@ -33,7 +33,7 @@ mongoose.set('strictQuery', false);
 main().catch(err => console.log(err));
 async function main() {
   await mongoose.connect('mongodb://127.0.0.1:27017/school')
-  .then(console.log('database connected'))
+  .then(console.log('database connected'));
 }
 
 //the home route
@@ -44,6 +44,18 @@ app.get('/', (req, res) => {
 app.use('/courses', courses);
 app.use('/teachers',teachers);
 app.use('/students',students);
+
+//404 handler
+app.use((req,res)=>{
+  res.status(404).render('404',{path:req.path , title:'not found' , statusCode:res.statusCode});
+});
+
+//error handler
+// app.use((err,req,res,next)=>{
+//   console.log("error is here",err);
+//   console.log("end err");
+//   res.send('error');
+// })
 
 //port
 app.listen(3000, () => {

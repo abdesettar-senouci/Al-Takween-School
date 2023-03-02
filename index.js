@@ -5,8 +5,10 @@ const ejsMate = require('ejs-mate');
 const methodOverride = require('method-override');
 //const session = require('express-session');
 //const passport = require('passport'); not used for now
-const Course = require('./models/course');
-const Teacher = require('./models/teacher');
+
+//utils
+const AppErr = require('./utils/appErr');
+//const catchAsync = require('./utils/catchAsync');
 
 //routes
 const courses = require('./routes/courses');
@@ -45,17 +47,22 @@ app.use('/courses', courses);
 app.use('/teachers',teachers);
 app.use('/students',students);
 
+app.get('/error',(req,res)=>{
+  kdso;
+})
+
 //404 handler
-app.use((req,res)=>{
-  res.status(404).render('404',{path:req.path , title:'not found' , statusCode:res.statusCode});
+app.all('*',(req,res,next)=>{
+  next(new AppErr('not found',404));
 });
 
 //error handler
-// app.use((err,req,res,next)=>{
-//   console.log("error is here",err);
-//   console.log("end err");
-//   res.send('error');
-// })
+app.use((err,req,res,next)=>{
+  const {statusCode= 500 , message= 'something went wrong' } = err;
+  res.status(statusCode);
+  console.log(err);
+  res.send(message);
+})
 
 //port
 app.listen(3000, () => {

@@ -134,10 +134,15 @@ const seedDB = async () => {
         const t = new Teacher(teachers[i]);
         await t.save();
     };
+    let t = await Teacher.findOne({});
     for (let i = 0; i < 10; i++) {
+        courses[i].teacher=t
         const c = new Course(courses[i]);
+        t.courses.push(c);
         await c.save();
     };
+    console.log(t);
+    await t.save();
     console.log('seeded succesfully');
 }
 

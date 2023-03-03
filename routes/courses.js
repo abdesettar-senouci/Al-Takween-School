@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Course = require('../models/course');
+const Teacher = require('../models/teacher');
 const joi = require('joi');
 const {courseSchema} = require('../schemas');
 
@@ -12,11 +13,17 @@ const AppErr = require('../utils/appErr')
 //validating middleware
 const validateCourse=validate(courseSchema);
 
+const addTeacher = async (req,res,next)=>{
+    const c = await Course.findById(req.params.id).populate('teacher');
+    req.body.course.teacher = c.teacher.name;
+    next();
+}
+
 //////course crud
 
 //see courses
 router.get('/',catchAsync(async(req,res)=>{
-    const courses = await Course.find({});
+    const courses = await Course.find({}).populate('teacher');
     res.render('courses/index', { courses , title:'courses' });
 }));
 
@@ -25,7 +32,9 @@ router.get('/new',(req,res)=>{
     res.render('courses/new', {title:'new course'});
 })
 
-router.post('/', validateCourse, catchAsync(async (req, res) => {
+router.post('/', validateCourse , catchAsync(async (req, res) => {
+    const t = await Teacher.findOne({name:req.body.course.teacher})
+    req.body.course.teacher=t;
     const course = new Course(req.body.course);
     await course.save();
     res.redirect('/courses');
@@ -33,19 +42,22 @@ router.post('/', validateCourse, catchAsync(async (req, res) => {
 
 //show course
 router.get('/:id', catchAsync(async (req, res,) => {
-    const course = await Course.findById(req.params.id)
+    const course = await Course.findById(req.params.id);
     res.render('courses/show', { course , title:course.title});
 }));
 
 //edit course
 router.get('/:id/edit',catchAsync(async (req, res) => {
-    const course = await Course.findById(req.params.id)
+    const course = await Course.findById(req.params.id);
     res.render('courses/edit', { course , title:'edit course'});
 }));
 
-router.put('/:id', validateCourse ,catchAsync(async (req, res) => {
+router.put('/:id',addTeacher, validateCourse ,catchAsync(async (req, res) => {
     const { id } = req.params;
+    const c = await Course.findById(id).populate('teacher');
+    req.body.course.teacher=c.teacher;
     const course = await Course.findByIdAndUpdate(id, { ...req.body.course });
+    console.log(course)
     res.redirect(`/courses/${course._id}`)
 }));
 

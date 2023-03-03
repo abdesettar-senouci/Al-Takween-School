@@ -33,7 +33,7 @@ router.post('/', validateTeacher ,catchAsync(async (req, res) => {
 
 //show teacher
 router.get('/:id',catchAsync(async (req, res,) => {
-    const teacher = await Teacher.findById(req.params.id)
+    const teacher = await Teacher.findById(req.params.id).populate('courses');
     res.render('teachers/show', { teacher , title:teacher.name});
 }));
 

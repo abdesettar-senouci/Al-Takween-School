@@ -9,4 +9,10 @@
         <button>Delete your account</button>
     </form>
     </p>
+    <br>
+    <% teacher.courses.forEach(course => { %>
+        <a href="/courses/<%= course.id %>"><%= course.title %> </a>
+        <br>
+    <% }) %>
+    <br>
     <a href="/teachers">back to teachers</a>

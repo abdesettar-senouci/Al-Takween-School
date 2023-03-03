@@ -4,7 +4,8 @@ module.exports.courseSchema = joi.object({
     course: joi.object({
         title: joi.string().required(),
         link: joi.string().required(),
-        description: joi.string().required()
+        description: joi.string().required(),
+        teacher: joi.string().required()
     }).required()
 })
 

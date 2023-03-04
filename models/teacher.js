@@ -13,5 +13,13 @@ const teacherSchema = new Schema({
 	courses:[{type:Schema.Types.ObjectId,ref:'Course'}]
 });
 
+teacherSchema.post('findOneAndDelete',async(doc)=>{
+	if(doc){
+		await Course.deleteMany({
+			_id:{ $in:doc.courses }	
+		});
+	};
+});
+
 const teacher = mongoose.model('Teacher',teacherSchema);
 module.exports = teacher;

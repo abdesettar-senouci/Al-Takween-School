@@ -35,13 +35,13 @@ router.post('/', validateStudent ,catchAsync(async (req, res) => {
 
 //show student
 router.get('/:id',catchAsync(async (req, res,) => {
-    const student = await Student.findById(req.params.id)
+    const student = await Student.findById(req.params.id);
     res.render('students/show', { student , title:student.name});
 }));
 
 //edit student
 router.get('/:id/edit',catchAsync(async (req, res) => {
-    const student = await Student.findById(req.params.id)
+    const student = await Student.findById(req.params.id);
     res.render('students/edit', { student , title:'edit profile' });
 }));
 

@@ -4,6 +4,6 @@ class AppErr extends Error{
         this.message=message;
         this.statusCode=status;
     }
-}
+};
 
 module.exports = AppErr;

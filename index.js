@@ -36,7 +36,7 @@ main().catch(err => console.log(err));
 async function main() {
   await mongoose.connect('mongodb://127.0.0.1:27017/school')
   .then(console.log('database connected'));
-}
+};
 
 //the home route
 app.get('/', (req, res) => {
@@ -49,7 +49,7 @@ app.use('/students',students);
 
 app.get('/error',(req,res)=>{
   kdso;
-})
+});
 
 //404 handler
 app.all('*',(req,res,next)=>{
@@ -62,9 +62,9 @@ app.use((err,req,res,next)=>{
   res.status(statusCode);
   console.log(err);
   res.send(message);
-})
+});
 
 //port
 app.listen(3000, () => {
-    console.log('Serving on port 3000')
+    console.log('Serving on port 3000');
 });

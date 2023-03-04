@@ -8,7 +8,7 @@ const {courseSchema} = require('../schemas');
 //utils
 const catchAsync = require('../utils/catchAsync');
 const validate = require('../utils/validate');
-const AppErr = require('../utils/appErr')
+const AppErr = require('../utils/appErr');
 
 //validating middleware
 const validateCourse=validate(courseSchema);
@@ -17,7 +17,7 @@ const addTeacher = async (req,res,next)=>{
     const c = await Course.findById(req.params.id).populate('teacher');
     req.body.course.teacher = c.teacher.name;
     next();
-}
+};
 
 //////course crud
 
@@ -33,7 +33,7 @@ router.get('/new',(req,res)=>{
 })
 
 router.post('/', validateCourse , catchAsync(async (req, res) => {
-    const t = await Teacher.findOne({name:req.body.course.teacher})
+    const t = await Teacher.findOne({name:req.body.course.teacher});
     req.body.course.teacher=t;
     const course = new Course(req.body.course);
     await course.save();
@@ -57,8 +57,7 @@ router.put('/:id',addTeacher, validateCourse ,catchAsync(async (req, res) => {
     const c = await Course.findById(id).populate('teacher');
     req.body.course.teacher=c.teacher;
     const course = await Course.findByIdAndUpdate(id, { ...req.body.course });
-    console.log(course)
-    res.redirect(`/courses/${course._id}`)
+    res.redirect(`/courses/${course._id}`);
 }));
 
 //delete course

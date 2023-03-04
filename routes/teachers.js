@@ -39,14 +39,14 @@ router.get('/:id',catchAsync(async (req, res,) => {
 
 //edit teacher
 router.get('/:id/edit',catchAsync(async (req, res) => {
-    const teacher = await Teacher.findById(req.params.id)
+    const teacher = await Teacher.findById(req.params.id);
     res.render('teachers/edit', { teacher , title:'edit profile' });
 }));
 
 router.put('/:id', validateTeacher ,catchAsync(async (req, res) => {
     const { id } = req.params;
     const teacher = await Teacher.findByIdAndUpdate(id, { ...req.body.teacher });
-    res.redirect(`/teachers/${teacher._id}`)
+    res.redirect(`/teachers/${teacher._id}`);
 }));
 
 //delete profile

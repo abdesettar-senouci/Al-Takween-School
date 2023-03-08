@@ -3,9 +3,8 @@ const path = require('path');
 const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
 const methodOverride = require('method-override');
-//const session = require('express-session');
+const session = require('express-session');
 const passport = require('passport');
-const cookieSession = require('cookie-session');
 require('dotenv').config();
 
 const passportSetup = require('./config/passport-setup');
@@ -23,11 +22,11 @@ const authRoutes = require('./routes/auth-routes');
 //run express
 const app = express();
 
-//cookie session
-app.use(cookieSession({
-  maxAge: 2 * 24 * 60 * 60 * 1000,
-  keys: [process.env.cookieKey]
-}));
+app.use(session({
+  resave: false,
+  saveUninitialized: true,
+  secret: process.env.sessionKey,
+}))
 
 // initialize passport
 app.use(passport.initialize());

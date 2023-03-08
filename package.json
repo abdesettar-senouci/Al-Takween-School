@@ -9,7 +9,6 @@
   "author": "senouci abdesettar",
   "license": "ISC",
   "dependencies": {
-    "cookie-session": "^2.0.0",
     "dotenv": "^16.0.3",
     "ejs": "^3.1.8",
     "ejs-mate": "^4.0.0",

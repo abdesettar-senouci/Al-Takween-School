@@ -28,24 +28,34 @@ router.get('/new',(req,res)=>{
 router.post('/', validateTeacher ,catchAsync(async (req, res) => {
     const teacher = new Teacher(req.body.teacher);
     await teacher.save();
+    req.flash('sucess','successfully created a teacher\'s profile');
     res.redirect('/teachers');
 }));
 
 //show teacher
 router.get('/:id',catchAsync(async (req, res,) => {
     const teacher = await Teacher.findById(req.params.id).populate('courses');
+    if (!teacher) {
+        req.flash('error', 'Cannot find that teacher!');
+        return res.redirect('/teachers');
+    }
     res.render('teachers/show', { teacher , title:teacher.name});
 }));
 
 //edit teacher
 router.get('/:id/edit',catchAsync(async (req, res) => {
     const teacher = await Teacher.findById(req.params.id);
+    if (!teacher) {
+        req.flash('error', 'Cannot find that teacher!');
+        return res.redirect('/teachers');
+    }
     res.render('teachers/edit', { teacher , title:'edit profile' });
 }));
 
 router.put('/:id', validateTeacher ,catchAsync(async (req, res) => {
     const { id } = req.params;
     const teacher = await Teacher.findByIdAndUpdate(id, { ...req.body.teacher });
+    req.flash('sucess','successfully updated the teacher\'s profile');
     res.redirect(`/teachers/${teacher._id}`);
 }));
 
@@ -53,6 +63,7 @@ router.put('/:id', validateTeacher ,catchAsync(async (req, res) => {
 router.delete('/:id',catchAsync(async (req, res) => {
     const { id } = req.params;
     await Teacher.findByIdAndDelete(id);
+    req.flash('sucess','successfully deleted the teacher\'s profile');
     res.redirect('/teachers');
 }));
 

@@ -6,6 +6,7 @@ const methodOverride = require('method-override');
 const session = require('express-session');
 const passport = require('passport');
 require('dotenv').config();
+const flash = require('connect-flash');
 
 const passportSetup = require('./config/passport-setup');
 
@@ -26,7 +27,20 @@ app.use(session({
   resave: false,
   saveUninitialized: true,
   secret: process.env.sessionKey,
-}))
+  cookie:{ 
+    httpOnly:true,
+    expires: Date.now() + 1000*60*60*24*7 ,
+    maxAge: 1000*60*60*24*7,
+   }
+}));
+app.use(flash());
+
+app.use((req,res,next)=>{
+  res.locals.sucess = req.flash('sucess');
+  res.locals.error = req.flash('error');
+  next();
+})
+
 
 // initialize passport
 app.use(passport.initialize());

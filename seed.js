@@ -1,6 +1,6 @@
-const Course = require('../models/course');
-const Teacher = require('../models/teacher');
-const Student = require('../models/student');
+const Course = require('./models/course');
+const Teacher = require('./models/teacher');
+const Student = require('./models/student');
 const mongoose = require('mongoose');
 
 

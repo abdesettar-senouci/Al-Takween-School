@@ -23,28 +23,6 @@ router.get('/',catchAsync(async(req,res)=>{
     res.render('students/index', { students , title:'students' , user:req.user});
 }));
 
-//////////////////////////////////////////////////////////google auth
-// // auth login
-// router.get('/auth/login', (req, res) => {
-//     res.render('login', { user: req.user });
-// });
-
-// // auth logout
-// router.get('/auth/logout', (req, res) => {
-//     // handle with passport
-//     res.send('logging out');
-// });
-
-// // auth with google+
-// router.get('/auth/google', passport.authenticate('google', {
-//     scope: ['profile']
-// }));
-
-// // callback route for google to redirect to
-// router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
-//     res.send('you reached the redirect URI');
-// });
-
 //create a student
 router.get('/new',(req,res)=>{
     res.render('students/new', {title:'register'});
@@ -53,24 +31,34 @@ router.get('/new',(req,res)=>{
 router.post('/', validateStudent ,catchAsync(async (req, res) => {
     const student = new Student(req.body.student);
     await student.save();
+    req.flash('sucess','successfully created a student profile');
     res.redirect('/students');
 }));
 
 //show student
 router.get('/:id',catchAsync(async (req, res,) => {
     const student = await Student.findById(req.params.id);
+    if (!student) {
+        req.flash('error', 'Cannot find that student!');
+        return res.redirect('/students');
+    }
     res.render('students/show', { student , title:student.name});
 }));
 
 //edit student
 router.get('/:id/edit',catchAsync(async (req, res) => {
     const student = await Student.findById(req.params.id);
+    if (!student) {
+        req.flash('error', 'Cannot find that student!');
+        return res.redirect('/students');
+    }
     res.render('students/edit', { student , title:'edit profile' });
 }));
 
 router.put('/:id', validateStudent ,catchAsync(async (req, res) => {
     const { id } = req.params;
     const student = await Student.findByIdAndUpdate(id, { ...req.body.student });
+    req.flash('sucess','successfully updated the student\'s profile');
     res.redirect(`/students/${student._id}`)
 }));
 
@@ -78,6 +66,7 @@ router.put('/:id', validateStudent ,catchAsync(async (req, res) => {
 router.delete('/:id',catchAsync(async (req, res) => {
     const { id } = req.params;
     await Student.findByIdAndDelete(id);
+    req.flash('sucess','successfully deleted the student\'s profile');
     res.redirect('/students');
 }));
 

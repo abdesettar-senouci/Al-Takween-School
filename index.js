@@ -4,7 +4,11 @@ const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
 const methodOverride = require('method-override');
 //const session = require('express-session');
-//const passport = require('passport'); not used for now
+const passport = require('passport');
+const cookieSession = require('cookie-session');
+require('dotenv').config();
+
+const passportSetup = require('./config/passport-setup');
 
 //utils
 const AppErr = require('./utils/appErr');
@@ -14,9 +18,20 @@ const AppErr = require('./utils/appErr');
 const courses = require('./routes/courses');
 const teachers = require('./routes/teachers');
 const students = require('./routes/students');
+const authRoutes = require('./routes/auth-routes');
 
 //run express
 const app = express();
+
+//cookie session
+app.use(cookieSession({
+  maxAge: 2 * 24 * 60 * 60 * 1000,
+  keys: [process.env.cookieKey]
+}));
+
+// initialize passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 //set the view engine
 app.set('view engine', 'ejs');
@@ -46,6 +61,7 @@ app.get('/', (req, res) => {
 app.use('/courses', courses);
 app.use('/teachers',teachers);
 app.use('/students',students);
+app.use('/auth', authRoutes);
 
 app.get('/error',(req,res)=>{
   kdso;

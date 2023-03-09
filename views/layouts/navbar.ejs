@@ -1,13 +1,22 @@
 <a href="/">click here to go home</a>
-<a href="/auth/google">google sign in</a>
+<% if (user) { %>
 <a href="/auth/logout">logout</a>
+<% } else { %>
+<a href="/auth/google">google sign in</a>
+<% } %>
 <br>
 <br>
 <br>
 <% if (sucess && sucess.length) { %>
  <%= sucess %>
+<br>
+<br>
 <% } %>
 
 <% if (error && error.length) { %>
     <%= error %>
+<br>
+<br>
 <% } %>
+
+

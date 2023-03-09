@@ -7,12 +7,11 @@ const session = require('express-session');
 const passport = require('passport');
 require('dotenv').config();
 const flash = require('connect-flash');
-
-const passportSetup = require('./config/passport-setup');
+// const passportSetup = require('./config/passport-setup');
 
 //utils
 const AppErr = require('./utils/appErr');
-//const catchAsync = require('./utils/catchAsync');
+const isLoggedIn = require('./utils/isLoggedIn')
 
 //routes
 const courses = require('./routes/courses');
@@ -35,30 +34,15 @@ app.use(session({
 }));
 app.use(flash());
 
-app.use((req,res,next)=>{
-  res.locals.sucess = req.flash('sucess');
-  res.locals.error = req.flash('error');
-  next();
-})
 
-
-// initialize passport
 app.use(passport.initialize());
 app.use(passport.session());
-
-//set the view engine
 app.set('view engine', 'ejs');
 app.engine('ejs', ejsMate);
 app.set('views', path.join(__dirname, 'views'));
-
-//method override
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
-
-//define static files folder (public)
 app.use(express.static(path.join(__dirname, 'public')));
-
-//connect to mongoose
 mongoose.set('strictQuery', false);
 main().catch(err => console.log(err));
 async function main() {
@@ -66,12 +50,21 @@ async function main() {
   .then(console.log('database connected'));
 };
 
-//the home route
+app.use((req,res,next)=>{
+  console.log(req.user)
+  res.locals.user = req.user
+  res.locals.sucess = req.flash('sucess');
+  res.locals.error = req.flash('error');
+  next();
+})
+
+
+///////////////////////////////////////////////////the home route
 app.get('/', (req, res) => {
     res.render('home.ejs',{title:'home'});
 });
 
-app.use('/courses', courses);
+app.use('/courses', isLoggedIn ,courses);
 app.use('/teachers',teachers);
 app.use('/students',students);
 app.use('/auth', authRoutes);

@@ -9,6 +9,7 @@ const {courseSchema} = require('../schemas');
 const catchAsync = require('../utils/catchAsync');
 const validate = require('../utils/validate');
 const AppErr = require('../utils/appErr');
+const isLoggedIn = require('../utils/isLoggedIn');
 
 //validating middleware
 const validateCourse=validate(courseSchema);
@@ -22,7 +23,7 @@ const addTeacher = async (req,res,next)=>{
 //////course crud
 
 //see courses
-router.get('/',catchAsync(async(req,res)=>{
+router.get('/', catchAsync(async(req,res)=>{
     const courses = await Course.find({}).populate('teacher');
     res.render('courses/index', { courses , title:'courses' });
 }));

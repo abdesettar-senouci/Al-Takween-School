@@ -3,7 +3,7 @@ const router = express.Router();
 const Student = require('../models/student');
 const {studentSchema} = require('../schemas');
 const joi = require('joi');
-// const passport = require('../config/passport-setup');
+const passport = require('../config/passport-setup');
 
 
 //utils
@@ -19,13 +19,15 @@ const validateStudent=validate(studentSchema);
 
 //show students
 router.get('/',catchAsync(async(req,res)=>{
+    console.log(req.user)
     const students = await Student.find({});
-    res.render('students/index', { students , title:'students' , user:req.user});
+    res.render('students/index', { students , title:'students' });
 }));
 
 //create a student
 router.get('/new',(req,res)=>{
-    res.render('students/new', {title:'register'});
+    res.redirect('/auth/google');
+    // res.render('students/new', {title:'register'});
 })
 
 router.post('/', validateStudent ,catchAsync(async (req, res) => {

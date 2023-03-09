@@ -11,12 +11,13 @@ module.exports.courseSchema = joi.object({
 
 module.exports.studentSchema = joi.object({
     student: joi.object({
-        name: joi.string().required(),
-        email: joi.string().required(),
-        password: joi.string().required(),
-        membership: joi.string().required(),
-        email: joi.string().required(),
-        membershipDate: joi.date().required()
+        username: joi.string().required(),
+        googleId: joi.string().required(),
+        email:joi.string().required(),
+	    name:joi.string().required(),
+	    membership:joi.string().required(),
+	    membershipDate:joi.date(),
+        authZ:joi.string().required,
     }).required()
 })
 

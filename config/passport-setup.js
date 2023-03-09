@@ -21,11 +21,9 @@ passport.use(
         callbackURL: '/auth/google/redirect'
     }, (accessToken, refreshToken, profile, done) => {
         // passport callback function
-        console.log('passport callback function fired:');      
         User.findOne({googleId: profile.id}).then((currentUser) => {
             if(currentUser){
                 // already have this user
-                console.log('user found');
                 done(null, currentUser);
                 // do something
             } else {
@@ -40,9 +38,7 @@ passport.use(
                 }).save().then(async (newUser) => {
                     if(newUser.googleId===process.env.superAdminId){
                         await User.findOneAndUpdate({googleId:newUser.googleId}, {role:'super admin'} ,{new: true})
-                        console.log('created the super admin')
                     };
-                console.log('new user created');
                 done(null, newUser);
                 });
             }

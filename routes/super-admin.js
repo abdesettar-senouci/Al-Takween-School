@@ -10,10 +10,10 @@ const AppErr = require('../utils/appErr');
 // const validateTeacher=validate(teacherSchema);
 
 router.get('/',(req,res)=>{
-    res.render('super-admin',{title:'dashboard'});
-})
+    res.render('indexes/super-admin',{title:'dashboard'});
+});
 
-router.get('/admins/new',/*have to check if you're an admin */catchAsync(async(req,res)=>{
+router.get('/admins/new',catchAsync(async(req,res)=>{
     const users = await User.find({role:{$nin:['super admin','admin']}});
     res.render('admins/index', { users , title:'all users' });
 }));

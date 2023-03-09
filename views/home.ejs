@@ -1,7 +1,16 @@
 <% layout('layouts/boilerplate') %>
-    <a href="/courses">our courses</a>
+    <!-- <a href="/courses">our courses</a>
     <a href="/teachers">our teachers</a>
-    <a href="/students">see students</a>
-    <a href="/superadmin">super admin</a>
+    <a href="/students">see students</a> -->
+    <!-- <% if (currentUser) { %>
+    <% if (currentUser.role==='super admin') { %>
+         <a href="/superadmin">super admin</a>
+         <a href="/admin">admin</a>
+    <% } %>
+    <% if (currentUser.role==='admin') { %>
+        <a href="/admin">admin</a>
+    <% } %>
+    <% } %> -->
+    
 
     <br>

@@ -61,7 +61,7 @@ router.put('/:id', validateStudent ,catchAsync(async (req, res) => {
     const { id } = req.params;
     const student = await Student.findByIdAndUpdate(id, { ...req.body.student });
     req.flash('sucess','successfully updated the student\'s profile');
-    res.redirect(`/students/${student._id}`)
+    res.redirect(`/students/${student._id}`);
 }));
 
 //delete profile

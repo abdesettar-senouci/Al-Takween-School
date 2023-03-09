@@ -48,7 +48,7 @@ router.get('/:id/edit',catchAsync(async (req, res) => {
     if (!teacher) {
         req.flash('error', 'Cannot find that teacher!');
         return res.redirect('/teachers');
-    }
+    };
     res.render('teachers/edit', { teacher , title:'edit profile' });
 }));
 

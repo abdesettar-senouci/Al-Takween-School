@@ -1,0 +1,11 @@
+<% layout('layouts/boilerplate') %>
+
+
+<h1>delete teacher</h1>
+    
+    <ul>
+        <% for (let user of users){%>
+            <li><a href="/users/<%= user._id %>"><%= user.name %></a></li>
+            <form action="/admin/teachers/<%= user._id %>?_method=DELETE" method="post"><button>delete teacher</button> </form>
+        <% }%>
+    </ul>

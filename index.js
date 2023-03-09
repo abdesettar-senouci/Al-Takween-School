@@ -13,6 +13,7 @@ const flash = require('connect-flash');
 const AppErr = require('./utils/appErr');
 const isLoggedIn = require('./utils/isLoggedIn');
 const isSuperAdmin = require('./utils/isSuperAdmin');
+const isAdmin = require('./utils/isAdmin');
 
 //routes
 const courses = require('./routes/courses');
@@ -20,6 +21,7 @@ const teachers = require('./routes/teachers');
 const students = require('./routes/students');
 const authRoutes = require('./routes/auth-routes');
 const superAdmin = require('./routes/super-admin');
+const admin = require('./routes/admin');
 
 //run express
 const app = express();
@@ -53,13 +55,11 @@ async function main() {
 };
 
 app.use((req,res,next)=>{
-  console.log(req.user)
-  console.log(req.path);
-  res.locals.currentUser = req.user
+  res.locals.currentUser = req.user;
   res.locals.sucess = req.flash('sucess');
   res.locals.error = req.flash('error');
   next();
-})
+});
 
 
 ///////////////////////////////////////////////////the home route
@@ -72,6 +72,8 @@ app.use('/teachers',teachers);
 app.use('/students',students);
 app.use('/auth', authRoutes);
 app.use('/superadmin', isLoggedIn , isSuperAdmin , superAdmin);
+app.use('/admin', isLoggedIn , isAdmin , admin);
+
 
 app.get('/error',(req,res)=>{
   kdso;

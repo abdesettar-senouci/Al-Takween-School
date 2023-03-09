@@ -1,7 +1,7 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 require('dotenv').config();
-const User = require('../models/student');
+const User = require('../models/user');
 
 passport.serializeUser((user, done) => {
     done(null, user.id);
@@ -21,7 +21,7 @@ passport.use(
         callbackURL: '/auth/google/redirect'
     }, (accessToken, refreshToken, profile, done) => {
         // passport callback function
-        console.log('passport callback function fired:');        
+        console.log('passport callback function fired:');      
         User.findOne({googleId: profile.id}).then((currentUser) => {
             if(currentUser){
                 // already have this user
@@ -35,9 +35,13 @@ passport.use(
                     googleId: profile.id,
                     email:profile._json.email,
                     name:profile.displayName,
-                    membership:'free',
-                    authZ:'student',
-                }).save().then((newUser) => {
+                    created:new Date(),
+                    role:'student'
+                }).save().then(async (newUser) => {
+                    if(newUser.googleId===process.env.superAdminId){
+                        await User.findOneAndUpdate({googleId:newUser.googleId}, {role:'super admin'} ,{new: true})
+                        console.log('created the super admin')
+                    };
                 console.log('new user created');
                 done(null, newUser);
                 });

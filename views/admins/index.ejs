@@ -1,0 +1,11 @@
+<% layout('layouts/boilerplate') %>
+
+
+<h1>add admin</h1>
+    
+    <ul>
+        <% for (let user of users){%>
+            <li><a href="/users/<%= user._id %>"><%= user.name %></a></li>
+            <form action="/superadmin/admins/<%= user._id %>" method="post">   <button>add admin</button> </form>
+        <% }%>
+    </ul>

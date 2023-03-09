@@ -11,13 +11,15 @@ const flash = require('connect-flash');
 
 //utils
 const AppErr = require('./utils/appErr');
-const isLoggedIn = require('./utils/isLoggedIn')
+const isLoggedIn = require('./utils/isLoggedIn');
+const isSuperAdmin = require('./utils/isSuperAdmin');
 
 //routes
 const courses = require('./routes/courses');
 const teachers = require('./routes/teachers');
 const students = require('./routes/students');
 const authRoutes = require('./routes/auth-routes');
+const superAdmin = require('./routes/super-admin');
 
 //run express
 const app = express();
@@ -52,7 +54,8 @@ async function main() {
 
 app.use((req,res,next)=>{
   console.log(req.user)
-  res.locals.user = req.user
+  console.log(req.path);
+  res.locals.currentUser = req.user
   res.locals.sucess = req.flash('sucess');
   res.locals.error = req.flash('error');
   next();
@@ -68,6 +71,7 @@ app.use('/courses', isLoggedIn ,courses);
 app.use('/teachers',teachers);
 app.use('/students',students);
 app.use('/auth', authRoutes);
+app.use('/superadmin', isLoggedIn , isSuperAdmin , superAdmin);
 
 app.get('/error',(req,res)=>{
   kdso;
@@ -83,7 +87,7 @@ app.use((err,req,res,next)=>{
   const {statusCode= 500 , message= 'something went wrong' } = err;
   res.status(statusCode);
   console.log(err);
-  res.send(message);
+  res.render('err',{message,statusCode,title:'error'});
 });
 
 //port

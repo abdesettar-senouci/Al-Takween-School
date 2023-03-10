@@ -1,12 +1,13 @@
 <a href="/">click here to go home</a>
 <% if (currentUser) { %>
+    <% if (currentUser.role === 'teacher') { %>
+     <a href="/teachers/<%= currentUser._id %>">profile</a>
+    <% } %>
     <% if (currentUser.role === 'super admin' ) { %>
-     <a href="/superadmin/admins/new">add admin</a>
-     <a href="/superadmin/admins">delete admin</a>
+     <a href="/admins">admins</a>
     <% } %>
     <% if (currentUser.role === 'admin' || currentUser.role === 'super admin') { %>
-     <a href="/admin/teachers/new">add teacher</a>
-     <a href="/admin/teachers">delete teacher</a>
+     <a href="/teachers">teachers</a>
     <% } %>
     
     <a href="/auth/logout">logout</a>

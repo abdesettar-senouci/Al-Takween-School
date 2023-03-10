@@ -1,11 +1,11 @@
 <% layout('layouts/boilerplate') %>
 
 
-<h1>add admin</h1>
-    
+<h1>all admins</h1>
+    <a href="/admins/new">add admin</a>
     <ul>
-        <% for (let user of users){%>
-            <li><a href="/users/<%= user._id %>"><%= user.name %></a></li>
-            <form action="/superadmin/admins/<%= user._id %>" method="post">   <button>add admin</button> </form>
+        <% for (let admin of admins){%>
+            <li><a href="/admins/<%= admin._id %>"><%= admin.name %></a></li>
+            <form action="/admins/<%= admin._id %>?_method=DELETE" method="post"><button>delete admin</button></form>
         <% }%>
     </ul>

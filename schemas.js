@@ -25,7 +25,6 @@ module.exports.teacherSchema = joi.object({
     teacher: joi.object({
         name: joi.string().required(),
         email: joi.string().required(),
-        password: joi.string().required(),
         description: joi.string().required(),
     }).required()
 })

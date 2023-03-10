@@ -7,6 +7,8 @@ const userSchema = new Schema({
     email:String,
     name: String,
     role: String,
+    description:String,
+    courses:[{type:Schema.Types.ObjectId,ref:'Course'}],
     created: Date,
 });
 

@@ -3,22 +3,12 @@
     <form action="/teachers/<%=teacher._id%>?_method=PUT" method="POST">
         <div>
             <label for="name">name</label>
-            <input type="text" id="name" name="teacher[name]">
-        </div>
-        <div>
-            <label for="email">email</label>
-            <input type="text" id="email" name="teacher[email]">
-        </div>
-        <div>
-            <label for="password">password</label>
-            <input type="password" id="password" name="teacher[password]">
+            <input type="text" id="name" name="teacher[name]" value="<%= teacher.name %>">
         </div>
         <div>
             <label for="description">description</label>
-            <input type="text" id="description" name="teacher[description]">
+            <input type="text" id="description" name="teacher[description]" value="<%= teacher.description %>">
         </div>
         <button>Update profile</button>
-    </form>
-    <a href="/teachers/<%= teacher._id%>">Back To profile</a>
-    <br>
-    <a href="/teachers">back to teachers</a>
+    </form>        
+    <form action="/teachers/<%= currentUser._id %>?_method=DELETE" method="post"><button>delete account</button></form>

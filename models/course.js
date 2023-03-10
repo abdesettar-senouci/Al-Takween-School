@@ -2,13 +2,9 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const courseSchema = new Schema({
-    title:{
-        type:String,
-        required:true
-    },
-    link:String,
+    title:String,
     description:String,
-    teacher:{type:Schema.Types.ObjectId,ref:'Teacher'}
+    teacher:{type:Schema.Types.ObjectId,ref:'User'}
 });
 
 const course = mongoose.model('Course',courseSchema);

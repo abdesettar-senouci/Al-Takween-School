@@ -7,7 +7,7 @@ const session = require('express-session');
 const passport = require('passport');
 require('dotenv').config();
 const flash = require('connect-flash');
-// const passportSetup = require('./config/passport-setup');
+const passportSetup = require('./config/passport-setup');
 
 //utils
 const AppErr = require('./utils/appErr');
@@ -16,12 +16,12 @@ const isSuperAdmin = require('./utils/isSuperAdmin');
 const isAdmin = require('./utils/isAdmin');
 
 //routes
-const courses = require('./routes/courses');
-const teachers = require('./routes/teachers');
-const students = require('./routes/students');
+// const courses = require('./routes/courses');
+// const teachers = require('./routes/teachers');
+// const students = require('./routes/students');
 const authRoutes = require('./routes/auth-routes');
-const superAdmin = require('./routes/super-admin');
-const admin = require('./routes/admin');
+// const superAdmin = require('./routes/super-admin');
+const admin = require('./routes/admins');
 
 //run express
 const app = express();
@@ -67,12 +67,12 @@ app.get('/', (req, res) => {
     res.render('home.ejs',{title:'home'});
 });
 
-app.use('/courses', isLoggedIn ,courses);
-app.use('/teachers',teachers);
-app.use('/students',students);
+// app.use('/courses', isLoggedIn ,courses);
+// app.use('/teachers',teachers);
+// app.use('/students',students);
 app.use('/auth', authRoutes);
-app.use('/superadmin', isLoggedIn , isSuperAdmin , superAdmin);
-app.use('/admin', isLoggedIn , isAdmin , admin);
+// app.use('/superadmin', isLoggedIn , isSuperAdmin , superAdmin);
+app.use('/admins', isLoggedIn , isSuperAdmin , admin);
 
 
 app.get('/error',(req,res)=>{

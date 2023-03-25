@@ -4,7 +4,8 @@ const Schema = mongoose.Schema;
 const courseSchema = new Schema({
     title:String,
     description:String,
-    teacher:{type:Schema.Types.ObjectId,ref:'User'}
+    link:String,
+    teacher:{type:Schema.Types.ObjectId,ref:'user'}
 });
 
 const course = mongoose.model('Course',courseSchema);

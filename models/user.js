@@ -8,10 +8,14 @@ const userSchema = new Schema({
     name: String,
     role: String,
     description:String,
-    courses:[{type:Schema.Types.ObjectId,ref:'Course'}],
+    courses:{
+        type : [{
+            type : Schema.Types.ObjectId , 
+            ref: 'course'
+        }] , 
+    },
     created: Date,
 });
 
 const User = mongoose.model('user', userSchema);
-
 module.exports = User;

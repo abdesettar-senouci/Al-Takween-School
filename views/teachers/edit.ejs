@@ -1,13 +1,13 @@
 <% layout('layouts/boilerplate') %>
     <h1>Edit teacher</h1>
-    <form action="/teachers/<%=teacher._id%>?_method=PUT" method="POST">
+    <form action="/teachers/<%=currentUser._id%>?_method=PUT" method="POST">
         <div>
             <label for="name">name</label>
-            <input type="text" id="name" name="teacher[name]" value="<%= teacher.name %>">
+            <input type="text" id="name" name="teacher[name]" value="<%= currentUser.name %>">
         </div>
         <div>
             <label for="description">description</label>
-            <input type="text" id="description" name="teacher[description]" value="<%= teacher.description %>">
+            <input type="text" id="description" name="teacher[description]" value="<%= currentUser.description %>">
         </div>
         <button>Update profile</button>
     </form>        

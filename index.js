@@ -15,13 +15,6 @@ const isLoggedIn = require('./utils/isLoggedIn');
 const isSuperAdmin = require('./utils/isSuperAdmin');
 const isAdmin = require('./utils/isAdmin');
 
-//routes
-// const courses = require('./routes/courses');
-// const teachers = require('./routes/teachers');
-// const students = require('./routes/students');
-const authRoutes = require('./routes/auth-routes');
-// const superAdmin = require('./routes/super-admin');
-const admin = require('./routes/admins');
 
 //run express
 const app = express();
@@ -61,14 +54,22 @@ app.use((req,res,next)=>{
   next();
 });
 
+//routes
+const courses = require('./routes/courses');
+const teachers = require('./routes/teachers');
+// const students = require('./routes/students');
+const authRoutes = require('./routes/auth-routes');
+// const superAdmin = require('./routes/super-admin');
+const admin = require('./routes/admins');
+
 
 ///////////////////////////////////////////////////the home route
 app.get('/', (req, res) => {
     res.render('home.ejs',{title:'home'});
 });
 
-// app.use('/courses', isLoggedIn ,courses);
-// app.use('/teachers',teachers);
+app.use('/courses',courses);
+app.use('/teachers',teachers);
 // app.use('/students',students);
 app.use('/auth', authRoutes);
 // app.use('/superadmin', isLoggedIn , isSuperAdmin , superAdmin);
@@ -94,5 +95,5 @@ app.use((err,req,res,next)=>{
 
 //port
 app.listen(3000, () => {
-    console.log('Serving on port 3000');
+    console.log('Serving on port 3000:');
 });

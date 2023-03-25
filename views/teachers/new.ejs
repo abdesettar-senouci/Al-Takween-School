@@ -1,21 +1,15 @@
 <% layout('layouts/boilerplate') %>
-    <form action="/teachers" method="POST">
-        <div>
-            <label for="name">name</label>
-            <input type="text" id="name" name="teacher[name]">
-        </div>
-        <div>
-            <label for="email">email</label>
-            <input type="text" id="email" name="teacher[email]">
-        </div>
-        <div>
-            <label for="password">password</label>
-            <input type="password" id="password" name="teacher[password]">
-        </div>
-        <div>
-            <label for="description">description</label>
-            <input type="text" id="description" name="teacher[description]">
-        </div>
-        <button>register</button>
-    </form>
-    <a href="/">home</a>
+
+
+<h1>add teacher</h1>
+    
+    <ul>
+        <% for (let user of users){%>
+            <% if (user.role==='admin') { %>
+                <li><a href="/admins/<%= user._id %>"><%= user.name %></a></li>
+            <% } else { %>
+                <li><a href="/students/<%= user._id %>"><%= user.name %></a></li>
+            <% } %> 
+            <form action="/teachers/<%= user._id %>" method="post"><button>add teacher</button></form>
+        <% }%>
+    </ul>

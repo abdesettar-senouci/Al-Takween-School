@@ -57,7 +57,7 @@ app.use((req,res,next)=>{
 //routes
 const courses = require('./routes/courses');
 const teachers = require('./routes/teachers');
-// const students = require('./routes/students');
+const students = require('./routes/students');
 const authRoutes = require('./routes/auth-routes');
 // const superAdmin = require('./routes/super-admin');
 const admin = require('./routes/admins');
@@ -70,7 +70,7 @@ app.get('/', (req, res) => {
 
 app.use('/courses',courses);
 app.use('/teachers',teachers);
-// app.use('/students',students);
+app.use('/students',students);
 app.use('/auth', authRoutes);
 // app.use('/superadmin', isLoggedIn , isSuperAdmin , superAdmin);
 app.use('/admins', isLoggedIn , isSuperAdmin , admin);

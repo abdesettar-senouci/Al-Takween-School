@@ -25,7 +25,7 @@ router.get('/',catchAsync(async(req,res)=>{
     if(students){
         res.status(200).send(students);
     }else{
-        res.status(500).send('error occured');
+        res.status(500).send({err:'error occured'});
     }
 }));
 
@@ -33,20 +33,12 @@ router.get('/',catchAsync(async(req,res)=>{
 router.get('/:id',catchAsync(async (req, res,) => {
     const student = await User.findById(req.params.id);
     if (!student) {
-        return res.status(400).send('no student found');
+        return res.status(400).send({err:'error occured'});
     }
     res.status(200).send(student);
 }));
 
 //edit student
-router.get('/:id/edit',catchAsync(async (req, res) => {
-    const student = await User.findById(req.params.id);
-    if (!student) {
-        return res.status(400).send('no student found');
-    }
-    res.status(200).send(student);
-}));
-
 router.put('/:id',catchAsync(async (req, res) => {
     console.log(req.body.student)
     const { id } = req.params;
@@ -63,7 +55,7 @@ router.delete('/:id',catchAsync(async (req, res) => {
     if(student){
         return res.status(200).send(student)
     }else{
-        res.status(400).send('error');
+        res.status(400).send({err:'error occured'});
     }
 }));
 

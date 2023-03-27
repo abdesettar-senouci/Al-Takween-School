@@ -60,8 +60,8 @@ const teachers = require('./routes/teachers');
 const students = require('./routes/students');
 const authRoutes = require('./routes/auth-routes');
 // const superAdmin = require('./routes/super-admin');
-const admin = require('./routes/admins');
-
+const admins = require('./routes/admins');
+const sessions = require('./routes/sessions');
 
 ///////////////////////////////////////////////////the home route
 app.get('/', (req, res) => {
@@ -73,7 +73,8 @@ app.use('/teachers',teachers);
 app.use('/students',students);
 app.use('/auth', authRoutes);
 // app.use('/superadmin', isLoggedIn , isSuperAdmin , superAdmin);
-app.use('/admins', isLoggedIn , isSuperAdmin , admin);
+app.use('/admins', isLoggedIn , isSuperAdmin , admins);
+app.use('/sessions',sessions);
 
 
 app.get('/error',(req,res)=>{

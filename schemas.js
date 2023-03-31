@@ -5,7 +5,6 @@ module.exports.courseSchema = joi.object({
         title: joi.string().required(),
         link: joi.string().required(),
         description: joi.string().required(),
-        teacher: joi.string().required()
     }).required()
 })
 
@@ -25,7 +24,6 @@ module.exports.teacherSchema = joi.object({
     teacher: joi.object({
         name: joi.string().required(),
         email: joi.string().required(),
-        password: joi.string().required(),
         description: joi.string().required(),
     }).required()
 })

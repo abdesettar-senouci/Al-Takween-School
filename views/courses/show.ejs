@@ -2,11 +2,12 @@
     <h1><%= course.title %></h1>
     <p><%= course.link %></p>
     <p><%= course.description %></p>
-    <p> <a href="/courses/<%=course._id%>/edit">Edit</a>
-    </p>
-    <p>
-    <form action="/courses/<%=course._id%>?_method=DELETE" method="POST">
-        <button>Delete</button>
-    </form>
-    </p>
+    <% if (currentUser) { %>
+        <% if (currentUser._id===course.teacher._id) { %>
+        <a href="/courses/<%=course._id%>/edit">Edit</a>
+        <form action="/courses/<%=course._id%>?_method=DELETE" method="POST"><button>Delete</button></form>
+        <% } %>
+    <% } %>
+    
+    
     <a href="/courses">back to courses</a>

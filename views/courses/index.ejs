@@ -1,7 +1,11 @@
 <% layout('layouts/boilerplate') %>
     <h1>All courses</h1>
     <div>
-        <a href="/courses/new">Add a course</a>
+        <% if (currentUser) { %>
+         <% if (currentUser.role==='teacher') { %>
+            <a href="/courses/new">Add a course</a>
+         <% } %>
+        <% } %>
     </div>
     <ul>
         <% for (let course of courses){%>

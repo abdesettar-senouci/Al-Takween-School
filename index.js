@@ -7,7 +7,7 @@ const session = require('express-session');
 const passport = require('passport');
 require('dotenv').config();
 const flash = require('connect-flash');
-// const passportSetup = require('./config/passport-setup');
+const passportSetup = require('./config/passport-setup');
 
 //utils
 const AppErr = require('./utils/appErr');
@@ -15,13 +15,6 @@ const isLoggedIn = require('./utils/isLoggedIn');
 const isSuperAdmin = require('./utils/isSuperAdmin');
 const isAdmin = require('./utils/isAdmin');
 
-//routes
-const courses = require('./routes/courses');
-const teachers = require('./routes/teachers');
-const students = require('./routes/students');
-const authRoutes = require('./routes/auth-routes');
-const superAdmin = require('./routes/super-admin');
-const admin = require('./routes/admin');
 
 //run express
 const app = express();
@@ -50,7 +43,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 mongoose.set('strictQuery', false);
 main().catch(err => console.log(err));
 async function main() {
-  await mongoose.connect('mongodb://127.0.0.1:27017/school')
+  await mongoose.connect(process.env.MONGO_URL,{useNewUrlParser:true,useUnifiedTopology:true,})
   .then(console.log('database connected'));
 };
 
@@ -61,18 +54,27 @@ app.use((req,res,next)=>{
   next();
 });
 
+//routes
+const courses = require('./routes/courses');
+const teachers = require('./routes/teachers');
+const students = require('./routes/students');
+const authRoutes = require('./routes/auth-routes');
+// const superAdmin = require('./routes/super-admin');
+const admins = require('./routes/admins');
+const sessions = require('./routes/sessions');
 
 ///////////////////////////////////////////////////the home route
 app.get('/', (req, res) => {
     res.render('home.ejs',{title:'home'});
 });
 
-app.use('/courses', isLoggedIn ,courses);
+app.use('/courses',courses);
 app.use('/teachers',teachers);
 app.use('/students',students);
 app.use('/auth', authRoutes);
-app.use('/superadmin', isLoggedIn , isSuperAdmin , superAdmin);
-app.use('/admin', isLoggedIn , isAdmin , admin);
+// app.use('/superadmin', isLoggedIn , isSuperAdmin , superAdmin);
+app.use('/admins', admins);
+app.use('/sessions',sessions);
 
 
 app.get('/error',(req,res)=>{
@@ -94,5 +96,5 @@ app.use((err,req,res,next)=>{
 
 //port
 app.listen(3000, () => {
-    console.log('Serving on port 3000');
+    console.log('Serving on port 3000:');
 });

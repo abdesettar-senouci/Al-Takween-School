@@ -1,8 +1,9 @@
 <% layout('layouts/boilerplate') %>
 <h1>our teachers</h1>
+<a href="/teachers/new">add teacher</a>
     
     <ul>
-        <% for (let user of users){%>
-        <li><a href="/users/<%= user._id %>"><%= user.name %></a></li> <form action="/admin/teachers/<%= user._id %>" method="post"><button>add teacher</button></form>
+        <% for (let teacher of teachers){%>
+        <li><a href="/teachers/<%= teacher._id %>"><%= teacher.name %></a></li> 
         <% }%>
     </ul>

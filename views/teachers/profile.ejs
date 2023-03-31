@@ -1,0 +1,23 @@
+<% layout('layouts/boilerplate') %>
+
+<h1> <%= teacher.name  %> </h1>
+<h2> <%= teacher.email %> </h2>
+<p> <%= teacher.description %> </p>
+
+<% if (currentUser) { %>
+ <% if(currentUser.role === 'admin' || currentUser.role === 'super admin') { %>
+    <form action="/teachers/<%= teacher._id %>?_method=DELETE" method="post"><button>delete profile</button></form>
+ <% } else if(currentUser._id === teacher._id){ %>
+   <p><%= (toString(currentUser._id)) === (toString(teacher._id)) %></p>
+    <form action="/teachers/<%= teacher._id %>?_method=DELETE" method="post"><button>delete profile</button></form>
+    <a href="/teachers/<%= teacher._id %>/edit">edit profile</a>
+ <% } %>
+<% } %>
+
+
+<% if (teacher.courses) { %>
+    <% teacher.courses.forEach(course => { %>
+     <h3><%= course.title %></h3>
+     <p><%= course.description %></p>
+    <% }) %>
+<% } %>

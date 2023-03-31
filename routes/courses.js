@@ -23,63 +23,43 @@ const addTeacher = async (req,res,next)=>{
 };
 
 
-//////course crud
-
 //see courses
 router.get('/', catchAsync(async(req,res)=>{
     const courses = await Course.find({}).populate('teacher');
-    res.render('courses/index', { courses , title:'courses' });
+    if(courses) return res.status(200).send(courses);
+    res.status(500).send({err:'no courses found'});
 }));
 
-//create a new course
-router.get('/new',isLoggedIn,isTeacher,(req,res)=>{
-    res.render('courses/new', {title:'new course'});
-})
-
-router.post('/',isLoggedIn,isTeacher,validateCourse , catchAsync(async (req, res) => {
-    req.body.course.teacher = req.user._id;
+//new
+router.post('/', catchAsync(async (req, res) => {
     const course = new Course(req.body.course);
     const newCourse = await course.save();
-    const teacher = await Teacher.findByIdAndUpdate(req.user._id,{$push:{courses:newCourse._id}});
-    req.flash('sucess','successfully created a new course');
-    res.redirect('/courses');
+    if(newCourse) return res.status(200).send(newCourse);
+    res.status(500).send({err:'err creating course'});
 }));
 
-//show course
+//show
 router.get('/:id', catchAsync(async (req, res,) => {
     const course = await Course.findById(req.params.id);
-    if (!course) {
-        req.flash('error', 'Cannot find that course!');
-        return res.redirect('/courses');
-    }
-    res.render('courses/show', { course , title:course.title});
+    if(course) return res.status(200).send(course);
+    res.status(400).send({err:'course not found'});
 }));
 
-//edit course
-router.get('/:id/edit',isLoggedIn,isOwner,catchAsync(async (req, res) => {
-    const course = await Course.findById(req.params.id);
-    if (!course) {
-        req.flash('error', 'Cannot find that course!');
-        return res.redirect('/courses');
-    }
-    res.render('courses/edit', { course , title:'edit course'});
-}));
-
-router.put('/:id',isLoggedIn,isOwner ,catchAsync(async (req, res) => {
+//edit
+router.put('/:id',catchAsync(async (req, res) => {
     const { id } = req.params;
     const c = await Course.findById(id).populate('teacher');
-    req.body.course.teacher=c.teacher;
-    const course = await Course.findByIdAndUpdate(id, { ...req.body.course });
-    req.flash('sucess','successfully updated the course');
-    res.redirect(`/courses/${course._id}`);
+    const course = await Course.findByIdAndUpdate(id, { ...req.body.course },{new:true});
+    if(course) return res.status(200).send(course);
+    res.status(500).send({err:'error'});
 }));
 
-//delete course
-router.delete('/:id',isLoggedIn,isOwner,catchAsync(async (req, res) => {
+//delete
+router.delete('/:id',catchAsync(async (req, res) => {
     const { id } = req.params;
-    await Course.findByIdAndDelete(id);
-    req.flash('sucess','successfully deleted the course');
-    res.redirect('/courses');
+    const course = await Course.findByIdAndDelete(id);
+    if(course) return res.status(200).send(course);
+    res.status(400).send({err:'course not found'});
 }));
 
 module.exports = router;

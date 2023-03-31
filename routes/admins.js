@@ -11,64 +11,24 @@ const AppErr = require('../utils/appErr');
 
 router.get('/',catchAsync(async(req,res)=>{
     const admins = await User.find({role:'admin'});
-    res.render('admins/index', {admins,title:'all admins'});
+    if(admins) return res.status(200).send(admins);
+    res.status(500).send({err:'no admins found'});
 }));
-
-router.get('/new',catchAsync(async(req,res)=>{
-    const users = await User.find({role:{$nin:['super admin','admin']}});
-    res.render('admins/new', { users , title:'add admin' });
-}));
-
 
 //create admins
 router.post('/:id',catchAsync(async (req, res) => {
     const { id } = req.params;
-    const newAdmin = await User.findByIdAndUpdate(id, { role:'admin' });
-    req.flash('sucess',`successfully added ${newAdmin.username} as an admin`);
-    res.redirect('/admins');
+    const newAdmin = await User.findByIdAndUpdate(id, { role:'admin' },{new:true});
+    if(newAdmin) return res.status(200).send(newAdmin);
+    res.status(500).send({err:'err creating admin'});
 }));
 
 
 router.delete('/:id',catchAsync(async (req, res) => {
     const { id } = req.params;
     const user = await User.findByIdAndDelete(id);
-    req.flash('sucess',`successfully deleted ${user.username}`);
-    res.redirect('/admins');
+    if(user) return res.status(200).send(user);
+    res.status(400).send({err:'user not found'});
 }));
-
-
-
-
-// router.get('/',(req,res)=>{
-//     res.render('indexes/admin',{title:'admin dashboard'});
-// });
-
-// //add teacher
-// router.get('/teachers/new',catchAsync(async(req,res)=>{
-//     const teachers = await User.find({role:{$nin:['super admin','admin','teacher']}});
-//     res.render('teachers/index', { teachers , title:'add teacher' });
-// }));
-
-
-// //create teacher
-// router.post('/teachers/:id',catchAsync(async (req, res) => {
-//     const { id } = req.params;
-//     const newTeacher = await User.findByIdAndUpdate(id, { role:'teacher' });
-//     req.flash('sucess',`successfully added ${newTeacher.username} as a teacher`);
-//     res.redirect(`/admin`);
-// }));
-
-// //delete teacher
-// router.get('/teachers',catchAsync(async (req, res) => {
-//     const teachers = await User.find({role:{$eq:'teacher'}});
-//     res.render('teachers/delete',{teachers,title:'delete teacher'});
-// }));
-
-// // router.delete('/teachers/:id',catchAsync(async (req, res) => {
-// //     const { id } = req.params;
-// //     const user = await User.findByIdAndDelete(id);
-// //     req.flash('sucess',`successfully deleted ${user.username}`);
-// //     res.redirect('/admin');
-// // }));
 
 module.exports = router;

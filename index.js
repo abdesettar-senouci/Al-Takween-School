@@ -43,7 +43,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 mongoose.set('strictQuery', false);
 main().catch(err => console.log(err));
 async function main() {
-  await mongoose.connect('mongodb://127.0.0.1:27017/school')
+  await mongoose.connect(process.env.MONGO_URL,{useNewUrlParser:true,useUnifiedTopology:true,})
   .then(console.log('database connected'));
 };
 
@@ -73,7 +73,7 @@ app.use('/teachers',teachers);
 app.use('/students',students);
 app.use('/auth', authRoutes);
 // app.use('/superadmin', isLoggedIn , isSuperAdmin , superAdmin);
-app.use('/admins', isLoggedIn , isSuperAdmin , admins);
+app.use('/admins', admins);
 app.use('/sessions',sessions);
 
 

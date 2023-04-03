@@ -37,6 +37,8 @@ passport.use(
                     email:profile._json.email,
                     name:profile.displayName,
                     role:'super admin',
+                    }).save().then(async(superAdmin)=>{
+                        done(null,superAdmin);
                     })
                 }else{
                 new Student({
@@ -50,7 +52,7 @@ passport.use(
                     phone:req.session.additionalFields.phone,
                     address:req.session.additionalFields.address,
                 }).save().then(async (newUser) => {
-                done(null, newUser);
+                    done(null, newUser);
                 }); 
                 }
             }

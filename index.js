@@ -95,6 +95,6 @@ app.use((err,req,res,next)=>{
 });
 
 //port
-app.listen(3000, () => {
-    console.log('Serving on port 3000:');
+app.listen(process.env.PORT, () => {
+    console.log('Serving on port:',process.env.PORT);
 });

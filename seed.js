@@ -1,7 +1,8 @@
-const Course = require('./models/course');
-const Teacher = require('./models/teacher');
-const Student = require('./models/student');
+// const Course = require('./models/course');
+const {Student} = require('./models/user');
 const mongoose = require('mongoose');
+require('dotenv').config();
+
 
 const courses = [  {    "title": "Introduction to Python",    "description": "Learn the basics of Python programming language and its applications.",    "link": "https://www.example.com/courses/introduction-to-python"  ,'teacher':'640cbc7c2c6aff6c12680ef9'},  {    "title": "Data Structures and Algorithms",    "description": "Learn common data structures and algorithms used in programming.",    "link": "https://www.example.com/courses/data-structures-and-algorithms"  ,'teacher':'640cbc7c2c6aff6c12680ef9'},  {    "title": "Web Development with React",    "description": "Learn how to build web applications using React framework.",    "link": "https://www.example.com/courses/web-development-with-react"  ,'teacher':'640cbc7c2c6aff6c12680ef9'},  {    "title": "Machine Learning Fundamentals",    "description": "Learn the basics of machine learning algorithms and their applications.",    "link": "https://www.example.com/courses/machine-learning-fundamentals"  ,'teacher':'640cbc7c2c6aff6c12680ef9'},  {    "title": "Introduction to HTML and CSS",    "description": "Learn how to create websites using HTML and CSS.",    "link": "https://www.example.com/courses/introduction-to-html-css"  ,'teacher':'640cbc7c2c6aff6c12680ef9'},  {    "title": "Introduction to Java",    "description": "Learn the basics of Java programming language and its applications.",    "link": "https://www.example.com/courses/introduction-to-java"  ,'teacher':'640cbc7c2c6aff6c12680ef9'},  {    "title": "Mobile App Development with Flutter",    "description": "Learn how to build mobile apps using Flutter framework.",    "link": "https://www.example.com/courses/mobile-app-development-with-flutter"  ,'teacher':'640cbc7c2c6aff6c12680ef9'}];
 const teachers = [
@@ -113,37 +114,52 @@ const students = [
   
 
 //connect to mongoose
+// mongoose.set('strictQuery', false);
+// main().catch(err => console.log(err));
+// async function main() {
+//   await mongoose.connect(process.env.MONGO_URL)
+//   .then(console.log('starting seeding'));
+// }
 mongoose.set('strictQuery', false);
 main().catch(err => console.log(err));
 async function main() {
-  await mongoose.connect('mongodb://127.0.0.1:27017/school')
-  .then(console.log('starting seeding'));
-}
+  await mongoose.connect(process.env.MONGO_URL,{useNewUrlParser:true,useUnifiedTopology:true,})
+  .then(console.log('database connected'));
+};
 
 //seed data
-const seedDB = async () => {
-    await Course.deleteMany({});
-    await Teacher.deleteMany({});
-    await Student.deleteMany({});
-    for (let i = 0; i < 10; i++) {
-      const s = new Student(students[i]);
-      await s.save();
-  };
-    for (let i = 0; i < 5; i++) {
-        const t = new Teacher(teachers[i]);
-        await t.save();
-    };
-    let t = await Teacher.findOne({});
-    for (let i = 0; i < 10; i++) {
-        courses[i].teacher=t;
-        const c = new Course(courses[i]);
-        t.courses.push(c);
-        await c.save();
-    };
-    console.log(t);
-    await t.save();
-    console.log('seeded succesfully');
-};
+// const seedDB = async () => {
+//     await Course.deleteMany({});
+//     await Teacher.deleteMany({});
+//     await Student.deleteMany({});
+//     for (let i = 0; i < 10; i++) {
+//       const s = new Student(students[i]);
+//       await s.save();
+//   };
+//     for (let i = 0; i < 5; i++) {
+//         const t = new Teacher(teachers[i]);
+//         await t.save();
+//     };
+//     let t = await Teacher.findOne({});
+//     for (let i = 0; i < 10; i++) {
+//         courses[i].teacher=t;
+//         const c = new Course(courses[i]);
+//         t.courses.push(c);
+//         await c.save();
+//     };
+//     console.log(t);
+//     await t.save();
+//     console.log('seeded succesfully');
+// };
+
+const seedDB = async()=>{
+  const student = new Student({
+    name:'default name',
+    email:'default email',
+    phone:0666666666,
+  })
+  await student.save()
+}
 
 seedDB().then(() => {
     mongoose.connection.close();

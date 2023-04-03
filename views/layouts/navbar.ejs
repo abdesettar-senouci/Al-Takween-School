@@ -12,16 +12,15 @@
     <% } %>
     <a href="/auth/logout">logout</a>
 <% } else { %>
+    <!-- <form action="/auth/google" method="post">
+        <button>google sign in</button>
+    </form> -->
     <a href="/auth/google">google sign in</a>
 <% } %>
 
 <br>
 <br>
 <br>
-
-
-
-
 <% if (sucess && sucess.length) { %>
  <%= sucess %>
 <br>

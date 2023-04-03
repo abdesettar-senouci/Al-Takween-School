@@ -6,5 +6,5 @@ const sessionSchema = new Schema({
     description:String,
 });
 
-const session = mongoose.model('Session',sessionSchema);
+const session = mongoose.model('Event',sessionSchema);
 module.exports = session;

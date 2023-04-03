@@ -3,6 +3,7 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 require('dotenv').config();
 const {User,Student} = require('../models/user');
 
+
 passport.serializeUser((user, done) => {
     done(null, user.id);
 });
@@ -18,8 +19,9 @@ passport.use(
         // options for google strategy
         clientID: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL: '/auth/google/redirect'
-    }, (accessToken, refreshToken, profile, done) => {
+        callbackURL: '/auth/google/redirect',
+        passReqToCallback: true
+    }, (req,accessToken, refreshToken, profile, done) => {
         // passport callback function
         User.findOne({googleId: profile.id}).then((currentUser) => {
             if(currentUser){
@@ -44,12 +46,10 @@ passport.use(
                     name:profile.displayName,
                     role:'student',
                     //get the other informations 
-                    academicLevel:req.body.academicLevel,
-                    phone:req.body.phone,
-                    address:req.body.address,
-                    dateOfBirth:req.body.dateOfBirth,  
+                    academicLevel:req.session.additionalFields.academicLevel,
+                    phone:req.session.additionalFields.phone,
+                    address:req.session.additionalFields.address,
                 }).save().then(async (newUser) => {
-
                 done(null, newUser);
                 }); 
                 }

@@ -33,7 +33,7 @@ const studentSchema = new Schema({
         }]
     },
     academicLevel:String,
-    phone:Number,
+    phone:String,
     address:String,
     dateOfBirth:Date,
 });

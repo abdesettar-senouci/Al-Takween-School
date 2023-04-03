@@ -14,9 +14,10 @@ router.get('/logout', (req, res) => {
 });
 
 // auth with google+
-router.get('/google', passport.authenticate('google', {
-    scope: ['profile','email']
-}));
+router.get('/google',(req,res,next)=>{
+    // req.additionalParameters = {academicLevel:'default aca',phone:0666666666,address:'default adress'}
+    passport.authenticate('google', {scope: ['profile','email']});
+} );
 
 // callback route for google to redirect to
 // hand control to passport to use code to grab profile info

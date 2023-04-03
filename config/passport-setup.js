@@ -1,7 +1,7 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 require('dotenv').config();
-const User = require('../models/user');
+const {User,Student} = require('../models/user');
 
 passport.serializeUser((user, done) => {
     done(null, user.id);
@@ -28,19 +28,31 @@ passport.use(
                 // do something
             } else {
                 // if not, create user in our db
-                new User({
+                if(profile.id === process.env.superAdminId){
+                    new User({
                     username: profile.displayName,
                     googleId: profile.id,
                     email:profile._json.email,
                     name:profile.displayName,
-                    created:new Date(),
-                    role:'student'
+                    role:'super admin',
+                    })
+                }else{
+                new Student({
+                    username: profile.displayName,
+                    googleId: profile.id,
+                    email:profile._json.email,
+                    name:profile.displayName,
+                    role:'student',
+                    //get the other informations 
+                    academicLevel:req.body.academicLevel,
+                    phone:req.body.phone,
+                    address:req.body.address,
+                    dateOfBirth:req.body.dateOfBirth,  
                 }).save().then(async (newUser) => {
-                    if(newUser.googleId===process.env.superAdminId){
-                        await User.findOneAndUpdate({googleId:newUser.googleId}, {role:'super admin'} ,{new: true})
-                    };
+
                 done(null, newUser);
-                });
+                }); 
+                }
             }
         });
     })

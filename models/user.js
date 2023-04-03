@@ -5,17 +5,40 @@ const userSchema = new Schema({
     username: String,
     googleId: String,
     email:String,
-    name: String,
-    role: String,
-    description:String,
-    courses:{
+    role: {
+        type: String,
+        enum: ['super admin','admin', 'teacher', 'student'],
+    },
+},
+    { timestamps: true }
+);
+
+const studentSchema = new Schema({
+    appliedCourses:{
         type : [{
             type : Schema.Types.ObjectId , 
             ref: 'course'
         }] , 
     },
-    created: Date,
+    enrolledCourses:{
+        type : [{
+            type : Schema.Types.ObjectId , 
+            ref: 'course'
+        }] , 
+    },
+    teachers: {
+        type:[{
+            type:Schema.Types.ObjectId,
+            ref:'teacher'
+        }]
+    },
+    academicLevel:String,
+    phone:Number,
+    address:String,
+    dateOfBirth:Date,
 });
 
+
 const User = mongoose.model('user', userSchema);
-module.exports = User;
+const Student = User.discriminator('student', studentSchema);
+module.exports = {User,Student};

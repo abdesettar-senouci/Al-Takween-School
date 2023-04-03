@@ -47,7 +47,6 @@ router.get('/:id',catchAsync(async (req, res,) => {
 
 //edit student
 router.put('/:id',catchAsync(async (req, res) => {
-    console.log(req.body.student)
     const { id } = req.params;
     let student = null;
     tC(async()=>{

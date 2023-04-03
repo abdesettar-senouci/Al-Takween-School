@@ -8,6 +8,8 @@ const passport = require('passport');
 require('dotenv').config();
 const flash = require('connect-flash');
 const passportSetup = require('./config/passport-setup');
+const MongoStore = require('connect-mongo');
+
 
 //utils
 const AppErr = require('./utils/appErr');
@@ -19,6 +21,7 @@ const isAdmin = require('./utils/isAdmin');
 //run express
 const app = express();
 
+
 app.use(session({
   resave: false,
   saveUninitialized: true,
@@ -27,7 +30,8 @@ app.use(session({
     httpOnly:true,
     expires: Date.now() + 1000*60*60*24*7 ,
     maxAge: 1000*60*60*24*7,
-   }
+  },
+  store: MongoStore.create({ mongoUrl: process.env.MONGO_URL })
 }));
 app.use(flash());
 

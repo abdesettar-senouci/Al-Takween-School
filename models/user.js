@@ -9,6 +9,7 @@ const userSchema = new Schema({
         type: String,
         enum: ['super admin','admin', 'teacher', 'student'],
     },
+    img:String,
 },
     { timestamps: true }
 );

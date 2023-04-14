@@ -1,4 +1,4 @@
-// const Course = require('./models/course');
+const Course = require('./models/course');
 const {Student} = require('./models/user');
 const mongoose = require('mongoose');
 require('dotenv').config();
@@ -110,8 +110,151 @@ const students = [
   }
 ];
 
-  
-  
+// const newCourses = [  {    title: "Introduction to Python",    description: "Learn the basics of Python programming language and start your journey as a developer!",    img: "https://example.com/python.jpg",    category: "Programming",    type: "online",    price: 99.99,    hours: 20,    certificate: true,    subscribe: true,    students: [ObjectId("60f2d024d1067d06d69c62b5"), ObjectId("60f2d024d1067d06d69c62b6")],
+// waitlist: [ObjectId("60f2d024d1067d06d69c62bb"), ObjectId("60f2d024d1067d06d69c62bc")],
+// teacher: ObjectId("60f2d024d1067d06d69c62af")
+// },
+// {
+// title: "Photography for Beginners",
+// description: "Master the art of photography with this comprehensive course for beginners!",
+// img: "https://example.com/photography.jpg",
+// category: "Arts",
+// type: "on site",
+// price: 149.99,
+// hours: 30,
+// certificate: true,
+// subscribe: true,
+// students: [ObjectId("60f2d024d1067d06d69c62b7")],
+// waitlist: [ObjectId("60f2d024d1067d06d69c62bd"), ObjectId("60f2d024d1067d06d69c62be")],
+// teacher: ObjectId("60f2d024d1067d06d69c62b0")
+// },
+// {
+// title: "Digital Marketing Fundamentals",
+// description: "Learn the core concepts and strategies of digital marketing and boost your online presence!",
+// img: "https://example.com/digital-marketing.jpg",
+// category: "Business",
+// type: "online",
+// price: 199.99,
+// hours: 40,
+// certificate: true,
+// subscribe: true,
+// students: [ObjectId("60f2d024d1067d06d69c62b8"), ObjectId("60f2d024d1067d06d69c62b9"), ObjectId("60f2d024d1067d06d69c62ba")],
+// waitlist: [ObjectId("60f2d024d1067d06d69c62bf")],
+// teacher: ObjectId("60f2d024d1067d06d69c62b1")
+// },
+// {
+// title: "Yoga for Stress Relief",
+// description: "Reduce stress, improve flexibility, and boost your energy with this relaxing yoga course.",
+// img: "https://example.com/yoga.jpg",
+// category: "Fitness",
+// type: "on site",
+// price: 79.99,
+// hours: 15,
+// certificate: false,
+// subscribe: true,
+// students: [ObjectId("60f2d024d1067d06d69c62c0"), ObjectId("60f2d024d1067d06d69c62c1"), ObjectId("60f2d024d1067d06d69c62c2"), ObjectId("60f2d024d1067d06d69c62c3"), ObjectId("60f2d024d1067d06d69c62c4")],
+// waitlist: [],
+// teacher: ObjectId("60f2d024d1067d06d69c62b2")}]
+
+const courses2 =[
+  {
+    title: "Introduction to Python",
+    description: "Learn the basics of Python programming language and start your journey as a developer!",
+    img: "https://example.com/python.jpg",
+    category: "Programming",
+    type: "online",
+    price: 99.99,
+    hours: 20,
+    certificate: true,
+    subscribe: true,
+    users: [
+      {
+        username: "John Doe",
+        googleId: "1234567890",
+        email: "johndoe@example.com",
+        role: "student",
+        img: "https://example.com/johndoe.jpg",
+        appliedCourses: [],
+        enrolledCourses: [],
+        teachers: [],
+        academicLevel: "Bachelor's degree",
+        phone: "123-456-7890",
+        address: "123 Main St, Anytown USA",
+        dateOfBirth: new Date("1990-01-01T00:00:00.000Z")
+      },
+      {
+        username: "Jane Smith",
+        googleId: "0987654321",
+        email: "janesmith@example.com",
+        role: "student",
+        img: "https://example.com/janesmith.jpg",
+        appliedCourses: [],
+        enrolledCourses: [],
+        teachers: [],
+        academicLevel: "Master's degree",
+        phone: "555-555-5555",
+        address: "456 Broadway, Anytown USA",
+        dateOfBirth: new Date("1995-05-05T00:00:00.000Z")
+      }
+    ],
+    teacher: "60f2d024d1067d06d69c62af"
+  },
+  {
+    title: "Photography for Beginners",
+    description: "Master the art of photography with this comprehensive course for beginners!",
+    img: "https://example.com/photography.jpg",
+    category: "Arts",
+    type: "on site",
+    price: 149.99,
+    hours: 30,
+    certificate: true,
+    subscribe: true,
+    users: [
+      {
+        username: "Alice Jones",
+        googleId: "abcdefghij",
+        email: "alicejones@example.com",
+        role: "student",
+        img: "https://example.com/alicejones.jpg",
+        appliedCourses: [],
+        enrolledCourses: [],
+        teachers: [],
+        academicLevel: "High school diploma",
+        phone: "555-123-4567",
+        address: "789 Main St, Anytown USA",
+        dateOfBirth: new Date("2000-12-31T00:00:00.000Z")
+      }
+    ],
+    teacher: "60f2d024d1067d06d69c62b0"
+  },
+  {
+    title: "Digital Marketing Fundamentals",
+    description: "Learn the core concepts and strategies of digital marketing and boost your online presence!",
+    img: "https://example.com/digital-marketing.jpg",
+    category: "Business",
+    type: "online",
+    price: 199.99,
+    hours: 40,
+    certificate: true,
+    subscribe: true,
+    users: [
+      {
+        username: "Bob Johnson",
+        googleId: "ijklmnopqr",
+        email: "bobjohnson@example.com",
+        role: "student",
+        img: "https://example.com/bobjohnson.jpg",
+        appliedCourses: [],
+        enrolledCourses: [],
+        teachers: [],
+        academicLevel: "Associate's degree",
+        phone: "555-987-6543",
+      }
+    ],
+    teacher: "60f2d024d1067d06d69c62b0"
+  }
+]
+
 
 //connect to mongoose
 // mongoose.set('strictQuery', false);
@@ -161,6 +304,28 @@ const seedDB = async()=>{
   await student.save()
 }
 
-seedDB().then(() => {
-    mongoose.connection.close();
-});
+const seedCourses = async()=>{
+  for(course of courses2){
+    const newCourse = await new Course({
+    title: course.title,
+    description: course.description,
+    img: course.img,
+    category: course.category,
+    type: course.type,
+    price: course.price,
+    hours: course.hours,
+    certificate: course.certificate,
+    subscribe: course.subscribe,
+    students: course.users,
+    teacher:'berbague chmisou',
+    }).save()
+  }
+}
+
+seedCourses().then(()=>{
+  mongoose.connection.close();
+})
+
+// seedDB().then(() => {
+//     mongoose.connection.close();
+// });

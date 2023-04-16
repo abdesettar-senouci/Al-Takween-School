@@ -46,11 +46,11 @@ router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
 
 router.get('/me', (req, res) => {
     console.log(req.session)
-    // if (req.session.passport.user) {
-    //   res.json({ hi:'hi'} );
-    // } else {
-    //   res.status(401).json({ message: 'Not authenticated' });
-    // }
+    if (req.session.user) {
+      res.json({ hi:'hi'} );
+    } else {
+      res.status(401).json({ message: 'Not authenticated' });
+    }
   });
 
 module.exports = router;

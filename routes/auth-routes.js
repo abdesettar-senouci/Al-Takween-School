@@ -37,7 +37,9 @@ router.get('/google',addSignupFields,passport.authenticate('google', {scope: ['p
 // callback route for google to redirect to
 // hand control to passport to use code to grab profile info
 router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
-    res.redirect('/');
+    console.log(res.session);
+    res.redirect('/')
+    // res.status(200).send()
 });
 
 module.exports = router;

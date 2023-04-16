@@ -9,6 +9,7 @@ require('dotenv').config();
 const flash = require('connect-flash');
 const passportSetup = require('./config/passport-setup');
 const MongoStore = require('connect-mongo');
+const cors = require("cors");
 
 
 //utils
@@ -33,7 +34,15 @@ app.use(session({
   },
   store: MongoStore.create({ mongoUrl: process.env.MONGO_URL })
 }));
-app.use(flash());
+app.use(flash());//not in use
+
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    methods: "GET,POST,PUT,DELETE",
+    credentials: true,
+  })
+);
 
 
 app.use(passport.initialize());

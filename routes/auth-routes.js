@@ -43,7 +43,7 @@ router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
     // res.status(200).send()
 });
 
-app.get('/me', (req, res) => {
+router.get('/me', (req, res) => {
     if (req.session.user) {
       res.json(req.session.user);
     } else {

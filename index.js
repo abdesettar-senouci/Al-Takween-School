@@ -38,7 +38,7 @@ app.use(flash());//not in use
 
 app.use(//cors()
   cors({
-    origin: "*",
+    origin: "http://localhost:3000",
     methods: "GET,POST,PUT,DELETE",
     credentials: true,
   })

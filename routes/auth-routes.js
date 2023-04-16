@@ -39,6 +39,7 @@ router.get('/google',addSignupFields,passport.authenticate('google', {scope: ['p
 router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
     console.log(req.session);
     req.session.user = req.user
+    console.log(res.session)
     res.redirect(`http://localhost:3001/`);
     // res.status(200).send()
 });

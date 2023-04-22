@@ -59,7 +59,8 @@ passport.use(
                 }
                 }else{
                     //you must sign up
-                    done({msg:'you must sign up'},null);
+                    const err = new AppErr('you must sign up first',401)
+                    done(err,null);
                 }
                 
             }

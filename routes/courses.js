@@ -117,6 +117,6 @@ router.delete('/:id/subscribe',catchAsync(async(req,res)=>{
     if (!updatedStudent) throw new AppErr('something is wrong',500);
     req.user=updatedStudent;
     res.send(updatedCourse);
-}))
+}));
 
 module.exports = router;

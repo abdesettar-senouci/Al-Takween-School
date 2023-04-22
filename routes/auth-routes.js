@@ -43,9 +43,9 @@ router.get('/google',addSignupFields,passport.authenticate('google', {scope: ['p
 
 // callback route for google to redirect to
 // hand control to passport to use code to grab profile info
-router.get('/google/redirect', passport.authenticate('google',{ failureRedirect: '/auth/loginf' }), (req, res) => {
+router.get('/google/redirect', passport.authenticate('google',{ failureRedirect: '/' }), (req, res) => {
     console.log(req.session);
-    req.session.user = req.user
+    req.session.user = req.user;
     console.log(res.session)
     res.redirect(`http://localhost:3001/`);
     // res.status(200).send()

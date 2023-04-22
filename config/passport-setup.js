@@ -59,7 +59,7 @@ passport.use(
                 }
                 }else{
                     //you must sign up
-                    done(new AppErr('you must sign up first'),401);
+                    done({msg:'you must sign up'},null);
                 }
                 
             }

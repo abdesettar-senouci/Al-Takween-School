@@ -59,9 +59,10 @@ passport.use(
                 }
                 }else{
                     //you must sign up
-                    const err = new Error('you must sign up first')
-                    err.status = 401
-                    done(err,null);
+                    // const err = new Error('you must sign up first')
+                    // err.status = 401
+                    // done(err,null);
+                    res.redirect('/auth/google/loginf')
                 }
                 
             }

@@ -18,19 +18,19 @@ const studentSchema = new Schema({
     appliedCourses:{
         type : [{
             type : Schema.Types.ObjectId , 
-            ref: 'course'
+            ref: 'Course'
         }] , 
     },
     enrolledCourses:{
         type : [{
             type : Schema.Types.ObjectId , 
-            ref: 'course'
+            ref: 'Course'
         }] , 
     },
     teachers: {
         type:[{
             type:Schema.Types.ObjectId,
-            ref:'teacher'
+            ref:'Teacher'
         }]
     },
     academicLevel:String,
@@ -40,6 +40,6 @@ const studentSchema = new Schema({
 });
 
 
-const User = mongoose.model('user', userSchema);
-const Student = User.discriminator('student', studentSchema);
+const User = mongoose.model('User', userSchema);
+const Student = User.discriminator('Student', studentSchema);
 module.exports = {User,Student};

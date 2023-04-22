@@ -62,8 +62,6 @@ async function main() {
 
 app.use((req,res,next)=>{
   res.locals.currentUser = req.user;
-  res.locals.sucess = req.flash('sucess');
-  res.locals.error = req.flash('error');
   next();
 });
 

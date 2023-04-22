@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Course = require('../models/course');
-const Teacher = require('../models/user');
+const {User , Student , Teacher} = require('../models/user');
 const joi = require('joi');
 const {courseSchema} = require('../schemas');
 
@@ -61,5 +61,62 @@ router.delete('/:id',catchAsync(async (req, res) => {
     if(course) return res.status(200).send(course);
     res.status(400).send({err:'course not found'});
 }));
+
+router.post('/:id/subscribe',catchAsync(async (req,res)=>{
+    const { id } = req.params;
+    const student = await Student.findById(req.user._id);
+    if(!student) throw new AppErr('student not found',400);
+    const updatedCourse = await Course.findByIdAndUpdate(
+        id ,
+        { $addToSet: { waitlist: student._Id } },
+        { new: true }
+      );
+    if(!updatedCourse) throw new AppErr('course not found',400);
+    const updatedStudent = await Student.findByIdAndUpdate(
+        student._id ,
+        { $addToSet: { appliedCourses: id } },
+        { new: true }
+      );
+    if (!updatedStudent) throw new AppErr('something is wrong',500);
+    req.user=updatedStudent;
+    res.status(200).send(updatedCourse);
+}));
+
+router.post('/:id/confirm', async (req,res)=>{
+    const { id } = req.params;
+    const student = await Student.findById(req.user._id);
+    if(!student) throw new AppErr('student not found',400);
+    const updatedCourse = await Course.findByIdAndUpdate(id,
+        {$pull:{waitlist:student._id},$addToSet:{students:student._id}},
+        {new:true});
+    if(!updatedCourse) throw new AppErr('course not found',400)
+    const updatedStudent = await Student.findByIdAndUpdate(
+        student._id ,
+        { 
+            $pull:{appliedCourses:id} ,
+            $addToSet:{enrolledCourses:id} ,
+            $addToSet: {teachers: updatedCourse.teacher}
+        },
+        {new:true});
+    if (!updatedStudent) throw new AppErr('something is wrong',500);
+    req.user=updatedStudent;
+    res.status(200).send(updatedCourse);
+});
+
+router.delete('/:id/subscribe',catchAsync(async(req,res)=>{
+    const { id } = req.params;
+    const student = await Student.findById(req.query.s);
+    if(!student) throw new AppErr('student not found',400);
+    const updatedCourse = await Course.findByIdAndUpdate(id,{$pull:{waitlist:student._id}},{new:true});
+    if(!updatedCourse) throw new AppErr('course not found',400)
+    const updatedStudent = await Student.findByIdAndUpdate(
+        student._id ,
+        { $pull: { appliedCourses: id } },
+        { new: true }
+      );
+    if (!updatedStudent) throw new AppErr('something is wrong',500);
+    req.user=updatedStudent;
+    res.send(updatedCourse);
+}))
 
 module.exports = router;

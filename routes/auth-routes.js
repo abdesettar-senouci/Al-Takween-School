@@ -15,7 +15,7 @@ router.use(session({
   
 
 const addSignupFields = (req,res,next)=>{
-    req.session.additionalFields = {academicLevel:'default',phone:'0666666666',address:'fake address'};
+    req.session.additionalFields = req.body.additionalFields;
     next();
 }
 
@@ -23,6 +23,8 @@ const addSignupFields = (req,res,next)=>{
 router.get('/login', (req, res) => {
     res.render('login', { user: req.user });
 });
+
+router.post('/signup',addSignupFields,passport.authenticate('google', {scope: ['profile','email']}))
 
 // auth logout
 router.get('/logout', (req, res) => {

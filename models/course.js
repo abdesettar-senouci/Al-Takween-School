@@ -14,19 +14,19 @@ const courseSchema = new Schema({
     hours:Number,
     certificate:Boolean,
     subscribe:Boolean,
-    students:Array,//{
-    //     type : [{
-    //         type : Schema.Types.ObjectId , 
-    //         ref: 'student'
-    //     }] , 
-    // },
-    waitlist:{
+    students:{
         type : [{
             type : Schema.Types.ObjectId , 
             ref: 'student'
         }] , 
     },
-    teacher:String//{type:Schema.Types.ObjectId,ref:'user'}
+    waitlist:{
+        type : [{
+            type : Schema.Types.ObjectId , 
+            ref: 'Student'
+        }] ,
+    },
+    teacher:{ type: Schema.Types.ObjectId, ref: 'Teacher', required: true },
 });
 
 const course = mongoose.model('Course',courseSchema);

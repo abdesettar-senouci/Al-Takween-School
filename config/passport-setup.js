@@ -2,6 +2,7 @@ const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 require('dotenv').config();
 const {User,Student} = require('../models/user');
+const AppErr = require('../utils/appErr');
 
 
 passport.serializeUser((user, done) => {
@@ -30,7 +31,8 @@ passport.use(
                 // do something
             } else {
                 // if not, create user in our db
-                if(profile.id === process.env.superAdminId){
+                if(req.session.additionalFields){
+                    if(profile.id === process.env.superAdminId){
                     new User({
                     username: profile.displayName,
                     googleId: profile.id,
@@ -55,6 +57,11 @@ passport.use(
                     done(null, newUser);
                 }); 
                 }
+                }else{
+                    //you must sign up
+                    done(new AppErr('you must sign up first'),401);
+                }
+                
             }
         });
     })

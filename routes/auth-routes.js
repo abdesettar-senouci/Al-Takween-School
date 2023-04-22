@@ -24,6 +24,11 @@ router.get('/login', (req, res) => {
     res.render('login', { user: req.user });
 });
 
+router.get('/loginf',(req,res)=>{
+  console.log('sign up');
+  res.redirect('http://localhost:3001');
+})
+
 router.post('/signup',addSignupFields,passport.authenticate('google', {scope: ['profile','email']}))
 
 // auth logout
@@ -38,7 +43,7 @@ router.get('/google',addSignupFields,passport.authenticate('google', {scope: ['p
 
 // callback route for google to redirect to
 // hand control to passport to use code to grab profile info
-router.get('/google/redirect', passport.authenticate('google',{ failureRedirect: 'http://localhost:3001' }), (req, res) => {
+router.get('/google/redirect', passport.authenticate('google',{ failureRedirect: '/loginf' }), (req, res) => {
     console.log(req.session);
     req.session.user = req.user
     console.log(res.session)

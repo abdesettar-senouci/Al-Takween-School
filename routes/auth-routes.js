@@ -47,7 +47,7 @@ router.get('/google/redirect', passport.authenticate('google',{ failureRedirect:
     console.log(req.session);
     req.session.user = req.user;
     console.log(res.session)
-    res.redirect(`http://localhost:3001/`);
+    res.redirect(`http://localhost:3001/signup`);
     // res.status(200).send()
 });
 

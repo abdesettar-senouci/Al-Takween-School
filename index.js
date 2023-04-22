@@ -102,7 +102,7 @@ app.use((err,req,res,next)=>{
   const {statusCode= 500 , message= 'something went wrong' } = err;
   res.status(statusCode);
   console.log(err);
-  res.render('err',{message,statusCode,title:'error'});
+  next();
 });
 
 //port

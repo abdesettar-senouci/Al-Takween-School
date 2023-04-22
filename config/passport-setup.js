@@ -59,7 +59,8 @@ passport.use(
                 }
                 }else{
                     //you must sign up
-                    const err = new AppErr('you must sign up first',401)
+                    const err = new Error('you must sign up first')
+                    err.status = 401
                     done(err,null);
                 }
                 
